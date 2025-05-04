@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <!-- SEO -->
     <meta name="description" content="Portfolio interactivo de Juana Zabaleta, diseñadora y desarrolladora frontend.">
     <meta name="keywords" content="Juana Zabaleta, portfolio, desarrolladora frontend, diseño UX/UI, programación web, proyectos">
@@ -31,7 +29,6 @@
 <body class="font-mono bg-slate-500 px-5 py-10 flex flex-col align-middle justify-center items-center">
 
   <div class="relative p-2 bg-gray-700 rounded-t-lg w-full max-w-3xl flex items-center justify-between shadow-xs shadow-gray-300/40">
-      
       <div class="flex space-x-2 align-middle">
         <span class="bg-[#D83B3B] w-3 h-3 rounded-full inline-block"></span>
         <span class="bg-[#E2C423] w-3 h-3 rounded-full inline-block"></span>
@@ -41,15 +38,14 @@
       <p class="absolute text-white left-1/2 transform -translate-x-1/2 text-xs font-medium">
         juana@portfolio -zsh
       </p>
-    </div>
+  </div>
   
-    <div class="h-80 pb-2 rounded-b-lg bg-stone-900 p-4 w-full max-w-3xl flex flex-col overflow-y-auto max-h-[60vh]" id="inicio">
+  <div class="h-80 pb-2 rounded-b-lg bg-stone-900 p-4 w-full max-w-3xl flex flex-col overflow-y-auto max-h-[60vh]" id="inicio">
       <div class="flex flex-col" id="output">
         <p class="text-white text-xs font-medium mr-2 mb-1">Escribí <i class="font-light">juana ayuda</i> para conocer los comandos</p>
       </div>  
       <div class="flex flex-col"> 
         <div class="flex items-center">
-          
           <p class="text-white text-xs font-medium mr-2 mb-1">$ juana@portfolio ~ % </p> 
           <input 
             type="text" 
@@ -82,15 +78,19 @@ const inicio = `
   </div>
 `;
 
-let command_history = [];
-let historyIndex = -1;
-let isLightTheme = false;
+let command_history = JSON.parse(localStorage.getItem('command_history')) || [];
+let historyIndex = command_history.length;
+let isLightTheme = localStorage.getItem('isLightTheme') === 'true';
 
 function initTerminalEvents() {
   const input = document.getElementById('input');
   const output = document.getElementById('output');
 
-  
+  // Apply the light/dark theme based on local storage
+  if (isLightTheme) {
+    document.documentElement.classList.remove('dark');
+    document.documentElement.classList.add('light');
+  }
 
   input.addEventListener('keydown', function (e) {
     if (e.key === 'ArrowUp') {
@@ -116,7 +116,6 @@ function initTerminalEvents() {
 
     if (e.key === 'Enter') {
       const comando = input.value.trim().toLowerCase();
-
 
       if (comando === 'juana limpiar') {
         espacioTerminal.innerHTML = inicio;
@@ -146,9 +145,10 @@ function initTerminalEvents() {
           break;
         case 'juana light':
            isLightTheme = true;
-          document.documentElement.classList.remove('dark');
-          document.documentElement.classList.add('light');
-        break
+           localStorage.setItem('isLightTheme', 'true');
+           document.documentElement.classList.remove('dark');
+           document.documentElement.classList.add('light');
+           break;
         case 'juana info':
           output.innerHTML += `
             <div class="text-white text-xs mb-1 ">
@@ -175,7 +175,6 @@ function initTerminalEvents() {
             </div>
           `;
           break;
-
         case 'juana contacto':
           output.innerHTML += `
             <div class="text-white text-xs mb-1">
@@ -185,7 +184,6 @@ function initTerminalEvents() {
             </div>
           `;
           break;
-
         case 'juana cv':
           output.innerHTML += `
             <div class="text-white text-xs mb-1">
@@ -197,7 +195,6 @@ function initTerminalEvents() {
             </div>
           `;
           break;
-
         case 'juana portfolio completo':
           output.innerHTML += `
             <div class="text-white font-light text-xs mb-1">
@@ -208,7 +205,6 @@ function initTerminalEvents() {
             </div>
           `;
           break;
-
         case 'juana estudios':
           output.innerHTML += `
             <div class="text-white text-xs mb-1 break-words">
@@ -230,7 +226,6 @@ function initTerminalEvents() {
             </div>
           `;
           break;
-
         default:
           output.innerHTML += `
             <div class="text-white text-xs mb-1 ">
@@ -242,6 +237,7 @@ function initTerminalEvents() {
       if (comando) {
         command_history.push(comando);
         historyIndex = command_history.length;
+        localStorage.setItem('command_history', JSON.stringify(command_history));  // Save to localStorage
       }
 
       input.value = '';
