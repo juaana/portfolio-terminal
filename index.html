@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="./assets/output.css">
     <title>Juana Zabaleta | Portfolio interactivo</title>
 </head>
-<body class="font-mono bg-slate-400 dark:bg-slate-700 px-5 py-10 flex flex-col align-middle justify-center items-center">
+<body class="font-mono bg-slate-500 px-5 py-10 flex flex-col align-middle justify-center items-center">
 
   <div class="relative p-2 bg-gray-700 rounded-t-lg w-full max-w-3xl flex items-center justify-between shadow-xs shadow-gray-300/40">
       
@@ -90,6 +90,8 @@ function initTerminalEvents() {
   const input = document.getElementById('input');
   const output = document.getElementById('output');
 
+  
+
   input.addEventListener('keydown', function (e) {
     if (e.key === 'ArrowUp') {
       e.preventDefault();
@@ -113,7 +115,8 @@ function initTerminalEvents() {
     }
 
     if (e.key === 'Enter') {
-      const comando = input.value.trim();
+      const comando = input.value.trim().toLowerCase();
+
 
       if (comando === 'juana limpiar') {
         espacioTerminal.innerHTML = inicio;
@@ -149,7 +152,7 @@ function initTerminalEvents() {
         case 'juana info':
           output.innerHTML += `
             <div class="text-white text-xs mb-1 ">
-              <p>✨ Soy Juana, diseñadora y desarrolladora frontend.</p>
+              <p>Soy Juana Zabaleta, desarrolladora Front-End apasionada por crear soluciones innovadoras y de alta calidad. Me enfoco en la colaboración efectiva y la resolución de problemas, siempre buscando mejorar la experiencia del usuario. </p>
             </div>
           `;
           break;
@@ -157,15 +160,16 @@ function initTerminalEvents() {
           output.innerHTML += `
             <div class="text-white font-light text-xs mb-1 ">
               <div class="text-white font-light text-xs mb-1 break-words">
-                <ul>
-                  <li>juana proyectos</li>
-                  <li>juana info</li>
-                  <li>juana contacto</li>
-                  <li>juana cv</li>
-                  <li>juana portfolio completo</li>
-                  <li>juana habla</li>
-                  <li>juana limpiar (para limpiar la consola)</li>
+               <ul>
+                  <li>juana proyectos: <i>listado de todos los proyectos en los que trabajé</i></li>
+                  <li>juana info: <i> un poco sobre mí</i></li>
+                  <li>juana contacto:<i> mis vías de contacto</i></li>
+                  <li>juana cv: <i>mi currículum actualizado</i></li>
+                  <li>juana portfolio completo: <i>mi portfolio completo</i></li>
+                  <li>juana habla: <i>los idiomas que hablo</i></li>
+                  <li>juana limpiar: <i>para limpiar la consola</i></li>
                 </ul>
+
               </div>
           
             </div>
